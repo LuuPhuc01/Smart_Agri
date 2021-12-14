@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset ="utf-8">
+
+        <title>Đồ án nhiệt độ và độ ẩm dùng ESP8266</title>
+ 
+        <link rel ="stylesheet" href ="style1.css">
+
+    </head>
+    <body>
+        <div id = "menu_top">
+            <ul>
+                <li><a href="#" title ="Trang chủ" >Home</a> </li>
+                <li><a href="http://192.168.100.6:8077/test1/view.php" target="_blank" title ="Data" >Data</a> </li>
+            </ul>
+            </div>
+            <div id = "banner">
+                <img src = "./img/banner.png"/>
+            </div>
+        </div>
+        <div id ="main">
+            <div class ="card Temperature">
+                <img src="./img/1234.png"/>
+                <h2>Temperature</h2>
+                <h1 id="temp">*C</h1>
+
+            </div>
+            <div class ="card Humidity">
+                <img src="https://orioni.co/nmedia/png/humidity-4401.png"/>
+                
+                <h2>Humidity</h2>
+                <h1 id="hum">%</h1>
+
+            </div>
+            <div class ="card Soil">
+                <img src="./img/do_am_dat.png"/>
+                
+                <h2>Soil moisture</h2>
+                <h1 id="soil">%</h1>
+
+            </div>
+        </div>
+        <div id ="main">
+            <div class ="card Lamp">
+                <img src="./img/lamp1.png"/>
+                
+                <h2>Lamp</h2>
+                <h1 id="trangthaiD2"></h1>
+                <button class ="button1" onclick="getdata('onD2')">ON</button>
+                <button class ="button1" onclick="getdata('offD2')">OFF</button>
+
+            </div>
+            <div class ="card Motor">
+                <img src="./img/motor.png"/>               
+                <h2>Motor</h2>
+                <h1 id="trangthaiD5"></h1>
+                <button class ="button1" onclick="getdata('onD5')">ON</button>
+                <button class ="button1" onclick="getdata('offD5')">OFF</button>
+
+            </div>
+            <div class ="card Automatic">
+                <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/automatic-2355136-1964528.png"/>          
+                <h2>Automatic</h2>
+                <h1 id="trangthaiD1"></h1>
+                <button class ="button1" onclick="getdata('onD1')">ON</button>
+                <button class ="button1" onclick="getdata('offD1')">OFF</button>
+                <a href="setting.html"  target="_blank">Setting</a>
+            </div>
+      </div>
+    </body>
+    <script>
+  
+        //-----------Tạo đối tượng request----------------
+function create_obj(){
+td = navigator.appName;
+if(td == "Microsoft Internet Explorer"){
+  obj = new ActiveXObject("Microsoft.XMLHTTP");
+}else{
+  obj = new XMLHttpRequest();
+}
+return obj;
+}
+var xhttp = create_obj();
+//-----------Thiết lập dữ liệu và gửi request-------
+function getdata(url){
+xhttp.open("GET","/"+url,true);
+xhttp.onreadystatechange = process;//nhận reponse 
+xhttp.send();
+}
+//-----------Kiểm tra response--------------------
+function process(){
+if(xhttp.readyState == 4 && xhttp.status == 200){
+  //------Updat data sử dụng javascript----------
+  ketqua = xhttp.responseText; 
+  document.getElementById("reponsetext").innerHTML=ketqua;       
+}
+}  
+  
+  
+  function getstatusD2D5(){
+xhttp.open("GET","/getstatusD2D5",true);
+xhttp.onreadystatechange = process_json;
+xhttp.send();
+}
+//-----------Kiểm tra response-------------------------------
+function process_json(){
+if(xhttp.readyState == 4 && xhttp.status == 200){
+  //------Update data sử dụng javascript-------------------
+  var trangthaiD2D5_JSON = xhttp.responseText;
+  var Obj = JSON.parse(trangthaiD2D5_JSON);
+  document.getElementById("trangthaiD2").innerHTML = Obj.D2;
+  document.getElementById("trangthaiD5").innerHTML = Obj.D5;
+  document.getElementById("trangthaiD1").innerHTML = Obj.D1;
+  document.getElementById("temp").innerHTML = Obj.temp;
+  document.getElementById("hum").innerHTML = Obj.hum;
+  document.getElementById("soil").innerHTML = Obj.soil;
+  
+}
+}
+//---Ham update duu lieu tu dong---
+setInterval(function() {
+getstatusD2D5();
+}, 1000);
+
+
+
+
+</script>
+   
+</html>
