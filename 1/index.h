@@ -1,3 +1,4 @@
+char MAIN_page[] PROGMEM = R"=====(
 <!DOCTYPE html>
 <html>
     <head>
@@ -5,45 +6,181 @@
 
         <title>Đồ án nhiệt độ và độ ẩm dùng ESP8266</title>
  
-        <link rel ="stylesheet" href ="style1.css">
+        <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;1,100;1,200&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background: linear-gradient(to right, #9fa5d5, #e8f5c8);
+  height: 100vh;
+}
+#menu_top {
+  position: relative;
+  align-items: center;
+  background: #3b3838;
+  color: #fff;
+  height: 100px;
+  width: 100%;
+}
+
+#menu_top ul {
+  margin: 0px;
+  padding: 0px;
+}
+#menu_top ul li {
+  list-style: none;
+  float: left;
+}
+#menu_top ul li a {
+  text-decoration: none; /*xóa gạch chân*/
+  display: block;
+  height: 100px;
+  line-height: 100px;
+  color: #fff;
+  font-size: 30px;
+  padding: 0px 20px 0px 20px;
+  /*border: 1px solid #ccc;*/
+}
+#banner {
+  height: auto;
+  width: auto;
+}
+
+#banner img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+#main {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  padding: 20px;
+  margin: 15px;
+  width: 200px;
+  height: 250px;
+  border-radius: 5px;
+  text-align: center;
+}
+.Temperature {
+  background: linear-gradient(45deg, #be285a 0%, #a11e4a 100%);
+  color: #ffffff;
+  transition: all 0.3s ease-in-out;
+}
+.Humidity {
+  background: linear-gradient(45deg, #02d11e 0%, #117c3a 100%);
+  transition: all 0.3s ease-in-out;
+  color: #ffffff;
+}
+.Soil {
+  background: linear-gradient(45deg, #3a0308 0%, #ce6c11 100%);
+  color: #ffffff;
+  transition: all 0.3s ease-in-out;
+}
+.Lamp {
+  background: linear-gradient(45deg, #d1c302 0%, #da7d26 100%);
+  color: #ffffff;
+  transition: all 0.3s ease-in-out;
+}
+.Motor {
+  background: linear-gradient(45deg, #0288d1 0%, #26c6da 100%);
+  color: #ffffff;
+  transition: all 0.3s ease-in-out;
+}
+.Automatic {
+  background: linear-gradient(45deg, #141413 0%, #969493 100%);
+  color: #ffffff;
+  transition: all 0.3s ease-in-out;
+}
+#main .card img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  margin: 0px auto;
+  padding: 10px;
+  width: 70px;
+  height: 70px;
+  border: 2px solid black;
+  border-radius: 50%;
+  background: #fff;
+}
+#main .card h2 {
+  font-size: 22px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-family: "poppins";
+}
+#main .card h1 {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+.card .button1 {
+  width: 60px;
+  height: 30px;
+  border: 2px solid black;
+  border-radius: 5px;
+  background: white;
+  transition: 0.5s;
+  cursor: pointer;
+}
+.card .button1:hover {
+  background: black;
+  color: white;
+}
+#main .Automatic a {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  padding-top: 5px;
+  font-size: 20px;
+}
+
+        </style>
 
     </head>
     <body>
         <div id = "menu_top">
             <ul>
-                <li><a href="#" title ="Trang chủ" >Home</a> </li>
-                <li><a href="http://192.168.100.6:8077/test1/view.php" target="_blank" title ="Data" >Data</a> </li>
+                <li><a href="/" title ="Trang chủ" >Home</a> </li>
+                <li><a href="http://192.168.1.16:8077/test1/view.php" target="_blank" title ="Data" >Data</a> </li>
             </ul>
             </div>
             <div id = "banner">
-                <img src = "./img/banner.png"/>
+                <img src = "https://i.imgur.com/0N51VCT.png"/>
             </div>
         </div>
         <div id ="main">
             <div class ="card Temperature">
-                <img src="./img/1234.png"/>
+                <img src="https://i.imgur.com/byifRzR.png"/>
                 <h2>Temperature</h2>
-                <h1 id="temp">*C</h1>
+                <h1 ><span id="temp"></span>*C</h1>
 
             </div>
             <div class ="card Humidity">
                 <img src="https://orioni.co/nmedia/png/humidity-4401.png"/>
                 
                 <h2>Humidity</h2>
-                <h1 id="hum">%</h1>
+                <h1> <span id="hum"></span>% </h1>
 
             </div>
             <div class ="card Soil">
-                <img src="./img/do_am_dat.png"/>
+                <img src="https://i.imgur.com/Q92kdIi.png"/>
                 
                 <h2>Soil moisture</h2>
-                <h1 id="soil">%</h1>
+                <h1 ><span id="soil"></span>%</h1>
 
             </div>
         </div>
         <div id ="main">
             <div class ="card Lamp">
-                <img src="./img/lamp1.png"/>
+                <img src="https://i.imgur.com/gRoFvxV.png"/>
                 
                 <h2>Lamp</h2>
                 <h1 id="trangthaiD2"></h1>
@@ -52,7 +189,7 @@
 
             </div>
             <div class ="card Motor">
-                <img src="./img/motor.png"/>               
+                <img src="https://i.imgur.com/2CfgPZH.png"/>               
                 <h2>Motor</h2>
                 <h1 id="trangthaiD5"></h1>
                 <button class ="button1" onclick="getdata('onD5')">ON</button>
@@ -65,7 +202,7 @@
                 <h1 id="trangthaiD1"></h1>
                 <button class ="button1" onclick="getdata('onD1')">ON</button>
                 <button class ="button1" onclick="getdata('offD1')">OFF</button>
-                <a href="setting.html"  target="_blank">Setting</a>
+                <a href="http://192.168.1.20/setting" target ="_blank" > Setting</a>
             </div>
       </div>
     </body>
@@ -129,3 +266,4 @@ getstatusD2D5();
 </script>
    
 </html>
+)=====";
